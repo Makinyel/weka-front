@@ -95,7 +95,7 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
                     {getStatusIcon(record.prediction)}
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
-                        <Badge variant={getBadgeVariant(record.prediction)} className="text-sm text-green-500 font-bold">
+                        <Badge variant={getBadgeVariant(record.prediction)} className="text-sm ">
                           {translatePrediction(record.prediction)}
                         </Badge>
                         <span className="text-sm font-bold text-black">

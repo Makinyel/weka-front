@@ -23,9 +23,9 @@ const Index = () => {
   const [selectedPrediction, setSelectedPrediction] = useState<PredictionRecord | null>(null);
   const { toast } = useToast();
 
-  const handleLoanSubmission = async (formData: LoanFormData) => {
+const handleLoanSubmission = async (formData: LoanFormData) => {
   setIsLoading(true);
-  
+
   try {
     console.log("Enviando datos reales al backend:", formData);
 
@@ -54,13 +54,20 @@ const Index = () => {
       formData: formData,
     };
 
-    setPredictions(prev => [newRecord, ...prev]);
+    setPredictions((prev) => [newRecord, ...prev]);
     setCurrentResult(result);
     setShowModal(true);
 
+    // Aquí el cambio para mostrar el mensaje personalizado
+    let mensajeResultado = result.prediction.toLowerCase().includes("approved")
+      ? "Préstamo Aprobado"
+      : result.prediction.toLowerCase().includes("rejected")
+      ? "Préstamo Rechazado"
+      : result.prediction;
+
     toast({
       title: "Evaluación completada",
-      description: `Resultado: ${result.prediction} - Probabilidad: ${result.probability.toFixed(1)}%`,
+      description: `Resultado: ${mensajeResultado} - Probabilidad: ${result.probability.toFixed(1)}%`,
     });
 
   } catch (error) {
