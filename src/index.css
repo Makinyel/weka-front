@@ -23,8 +23,8 @@
     --muted: 241 245 249;
     --muted-foreground: 100 116 139;
 
-    --accent: 241 245 249;
-    --accent-foreground: 15 23 42;
+    --accent: 222 100 95; /* Azul muy claro como fondo seleccionado */
+    --accent-foreground: 222 47 25;
 
     --destructive: 220 38 38;
     --destructive-foreground: 248 250 252;

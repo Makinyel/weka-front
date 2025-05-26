@@ -76,7 +76,7 @@ const handleSubmit = (e: React.FormEvent) => {
   };
 
   return (
-    <Card className="w-full max-w-5xl mx-auto animate-fade-in shadow-xl border-2 border-financial-primary/20">
+    <Card className="w-full max-w-5xl mx-auto animate-fade-in shadow-xl">
       <CardHeader className="text-center bg-gradient-to-r from-financial-primary to-financial-secondary text-white rounded-t-lg">
         <CardTitle className="text-3xl font-bold flex items-center justify-center gap-2">
           <CreditCard className="w-8 h-8" />

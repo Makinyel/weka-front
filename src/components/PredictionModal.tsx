@@ -50,8 +50,8 @@ const PredictionModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto border-2 border-financial-primary/20 shadow-2xl">
-        <DialogHeader className="bg-gradient-to-r from-financial-primary to-financial-secondary text-white rounded-t-lg p-6 -m-6 mb-6">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+        <DialogHeader className="bg-gradient-to-r from-financial-primary to-financial-secondary text-white rounded-t-lg p-6 -m-6 ">
           <DialogTitle className="text-center text-3xl font-bold">
             Resultado de la Evaluación
           </DialogTitle>

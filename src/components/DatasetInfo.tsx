@@ -118,7 +118,14 @@ const DatasetInfo = () => {
           Información del Dataset
         </h1>
         <p className="text-gray-600">
-          Descripción detallada de los atributos utilizados en el modelo de predicción de créditos
+          Este dataset contiene información financiera y personal de solicitantes de préstamos. 
+          Cada registro representa una solicitud única con sus características demográficas, 
+          financieras y de activos. El modelo utiliza estos atributos para predecir la 
+          probabilidad de aprobación del préstamo basándose en patrones históricos.
+        </p>
+        <br></br>
+          <p className="text-gray-600">
+          Aqui podrás ver la descripción detallada de los atributos utilizados en el modelo de predicción de créditos
         </p>
       </div>
 
