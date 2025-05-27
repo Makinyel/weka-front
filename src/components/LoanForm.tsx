@@ -147,7 +147,7 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
                       Si, Graduado Universitario
                     </SelectItem>
                     <SelectItem value="Not Graduate" className="text-lg py-3 hover:bg-financial-primary/10">
-                      No etoy Graduado
+                      No estoy Graduado
                     </SelectItem>
                   </SelectContent>
                 </Select>
