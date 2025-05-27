@@ -48,7 +48,7 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
     return (
       <Card className="w-full max-w-4xl mx-auto bg-gradient-to-r from-financial-primary to-financial-secondary">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl text-financial-dark">Historial de Predicciones</CardTitle>
+          <CardTitle className="text-4xl font-bold text-financial-dark">Historial de Predicciones</CardTitle>
           <CardDescription>Aquí aparecerán las evaluaciones realizadas</CardDescription>
         </CardHeader>
         <CardContent className="text-center py-12">
