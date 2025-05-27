@@ -127,7 +127,7 @@ const Index = () => {
           title: "Predicción de monto completada",
           description: `Monto máximo predecido: ${resultString}`,
         });
-        // --- FIN DE LA CORRECCIÓN ---
+        //
       }
     } catch (error) {
       console.error("Error en la evaluación:", error);
@@ -160,7 +160,7 @@ const Index = () => {
 
   const handleCloseAmountModal = () => {
     setShowAmountModal(false);
-    setLoanAmount(null); // Resetea a null o a un valor inicial apropiado
+    setLoanAmount(0);
   };
 
   const renderContent = () => {
@@ -210,7 +210,7 @@ const Index = () => {
           <AmountModal
             isOpen={showAmountModal}
             onClose={handleCloseAmountModal}
-            loanAmount={loanAmount} // Pasa el string directamente
+            loanAmount={loanAmount} 
           />
         )}
 

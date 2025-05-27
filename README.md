@@ -1,73 +1,74 @@
-# Welcome to your Lovable project
+# 🧠 Sistema Predictivo de Aprobación de Préstamos
 
-## Project info
+Este proyecto consiste en una *aplicación web* que predice la *aprobación* y *monto* de préstamos utilizando *machine learning con Weka, un backend desarrollado en **Java con Spring Boot, y un frontend moderno en **React con TypeScript*.
 
-**URL**: https://lovable.dev/projects/cb0b272d-a2d9-4e6a-8020-8e89618fc002
+## 🚀 Funcionalidades
 
-## How can I edit this code?
+- Predicción del estado de una solicitud de préstamo: Aprobado o Rechazado.
+- Estimación del monto probable a aprobar.
+- Interfaz intuitiva y responsiva.
+- Backend y modelos integrados y desplegados en la nube.
 
-There are several ways of editing your application.
+## 🛠️ Tecnologías utilizadas
 
-**Use Lovable**
+### ⚙️ Backend
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cb0b272d-a2d9-4e6a-8020-8e89618fc002) and start prompting.
+- *Java + Spring Boot*  
+  - API REST para recibir datos y retornar predicciones.
+  - Integración de modelos .model generados con Weka.
+- *Weka*
+  - *J48* (árbol de decisión) para clasificación.
+  - *Regresión lineal* para estimación del monto.
+- *Docker*  
+  - Contenerización del backend para facilitar despliegue.
+- *Render.com*  
+  - Plataforma donde se despliega el backend.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 💻 Frontend
 
-**Use your preferred IDE**
+- *React + TypeScript*
+  - Componente LoanForm para enviar datos al backend.
+  - PredictionModal y AmountModal para mostrar resultados.
+  - Estado dinámico usando useState.
+- *Tailwind CSS*  
+  - Estilizado rápido y adaptativo.
+- *shadcn/ui*  
+  - Componentes reutilizables y modernos.
+- *lucide-react*  
+  - Íconos SVG personalizados.
+- *Vercel*  
+  - Despliegue del frontend con integración CI/CD desde GitHub.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📊 Modelos de Machine Learning
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Entrenados y evaluados con *Weka*, usando datasets públicos relacionados con aprobación de préstamos:
 
-Follow these steps:
+- *J48*: Árbol de decisión para clasificación del préstamo (Aprobado/Rechazado).
+- *Regresión Lineal*: Para predecir el monto del préstamo a otorgar.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Los modelos son exportados como archivos .model y utilizados desde el backend Java.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🧪 Validación
 
-# Step 3: Install the necessary dependencies.
-npm i
+- Pruebas funcionales del sistema.
+- Análisis de precisión de los modelos (validación cruzada en Weka).
+- Simulación de solicitudes reales para verificar desempeño.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 📂 Estructura del repositorio
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/cb0b272d-a2d9-4e6a-8020-8e89618fc002) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+```bash
+.
+├── backend/
+│   ├── src/
+│   ├── Dockerfile
+│   ├── modelos/
+│   │   ├── modelo_aprobacion.model
+│   │   └── modelo_monto.model
+│   └── ...
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   └── pages/
+│   └── ...
+├── README.md
+└── ...
