@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, AlertTriangle, X } from "lucide-react";
+import { Lightbulb } from "lucide-react";
 
 interface PredictionModalProps {
   isOpen: boolean;
@@ -78,18 +79,19 @@ const PredictionModal = ({
           </div>
 
           {/* Recomendaciones */}
-          {advice && (
-            <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
-              <div className="border-l-4 border-financial-primary pl-6">
-                <h4 className="text-xl font-bold text-financial-dark mb-4 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6 text-financial-primary" />
-                  Recomendaciones Personalizadas:
-                </h4>
-                <p className="text-gray-700 leading-relaxed text-lg">
-                  {advice}
-                </p>
-              </div>
-            </div>
+            {advice && (
+  <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+    <div className="border-l-4 border-financial-primary pl-6">
+      <h4 className="text-xl font-bold text-financial-dark mb-4 flex items-center gap-2">
+        <Lightbulb className="w-6 h-6 text-financial-primary" />
+        Consejos:
+      </h4>
+      <p className="text-gray-700 leading-relaxed text-lg">
+        {advice}
+      </p>
+    </div>
+  </div>
+            
           )}
 
           {/* Árbol de decisión */}
