@@ -101,7 +101,7 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
             <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-financial-primary rounded-full peer peer-checked:bg-financial-primary transition-all"></div>
             <div className="absolute left-1 top-1 bg-white w-5 h-5 rounded-full shadow-md transform peer-checked:translate-x-7 transition-transform" />
           </label>
-          <span>Monto a Prestar</span>
+          <span>Estimar Monto a prestar</span>
         </div>
       </CardHeader>
 
