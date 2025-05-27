@@ -43,7 +43,7 @@ const Index = () => {
       if (mode === "approval") {
         // ... (Tu código existente para el modo 'approval' que ya funciona correctamente)
         const response = await fetch(
-          "https://sturdy-parakeet-6x77wp44gvq346vq-8080.app.github.dev/api-weka/predicJ48",
+          "https://weka-project.onrender.com/api-weka/predicJ48",
           {
             method: "POST",
             headers: {
@@ -97,7 +97,7 @@ const Index = () => {
         };
 
         const response = await fetch(
-          "https://sturdy-parakeet-6x77wp44gvq346vq-8080.app.github.dev/api-weka/predic",
+          "https://weka-project.onrender.com/api-weka/predic",
           {
             method: "POST",
             headers: {
