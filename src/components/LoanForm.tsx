@@ -133,7 +133,7 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
               <div className="space-y-3">
                 <Label htmlFor="education" className="text-financial-dark font-semibold text-sm flex items-center gap-2">
                   <GraduationCap className="w-4 h-4" />
-                  Nivel de Educación
+                  ¿Eres graduado?
                 </Label>
                 <Select
                   value={formData.education}
@@ -144,10 +144,10 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
                   </SelectTrigger>
                   <SelectContent className="bg-white border-2 border-financial-primary/30 shadow-xl z-50">
                     <SelectItem value="Graduate" className="text-lg py-3 hover:bg-financial-primary/10">
-                      Graduado Universitario
+                      Si, Graduado Universitario
                     </SelectItem>
                     <SelectItem value="Not Graduate" className="text-lg py-3 hover:bg-financial-primary/10">
-                      No Graduado
+                      No etoy Graduado
                     </SelectItem>
                   </SelectContent>
                 </Select>
