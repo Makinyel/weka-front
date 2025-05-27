@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send, User, GraduationCap, DollarSign, Calendar, CreditCard, Home, Building, Gem, Banknote } from "lucide-react";
 
 interface LoanFormProps {
-  onSubmit: (data: LoanFormData) => void;
+  onSubmit: (data: LoanFormData, mode: "approval" | "amount") => void;
   isLoading: boolean;
 }
 
@@ -41,37 +41,39 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
     bankAssetValue: 0,
   });
 
+  const [mode, setMode] = useState<"approval" | "amount">("approval");
   const { toast } = useToast();
 
-const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
-  console.log("Datos enviados:", formData);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  if (!formData.education || !formData.selfEmployed) {
-    toast({
-      title: "Campos requeridos",
-      description: "Por favor completa todos los campos del formulario.",
-      variant: "destructive",
-    });
-    return;
-  }
+    if (!formData.education || !formData.selfEmployed) {
+      toast({
+        title: "Campos requeridos",
+        description: "Por favor completa todos los campos del formulario.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-  if (formData.loanAmount <= 0 || formData.incomeAnnum <= 0) {
-    toast({
-      title: "Valores inválidos",
-      description: "El monto del préstamo e ingresos deben ser mayores a 0.",
-      variant: "destructive",
-    });
-    return;
-  }
-  onSubmit(formData);
-};
+    if (mode === "approval") {
+      if (formData.loanAmount <= 0 || formData.incomeAnnum <= 0) {
+        toast({
+          title: "Valores inválidos",
+          description: "El monto del préstamo e ingresos deben ser mayores a 0.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
 
+    onSubmit(formData, mode);
+  };
 
   const handleInputChange = (field: keyof LoanFormData, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -85,8 +87,24 @@ const handleSubmit = (e: React.FormEvent) => {
         <CardDescription className="text-blue-100 text-lg bg-white/10 p-3 rounded-lg backdrop-blur-sm">
           Completa la información para evaluar tu solicitud de crédito
         </CardDescription>
+
+        <div className="mt-4 flex justify-center items-center gap-3 text-white font-semibold select-none">
+          <span>Predicción Aprobación</span>
+          <label htmlFor="modeToggle" className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              id="modeToggle"
+              className="sr-only peer"
+              checked={mode === "amount"}
+              onChange={() => setMode(mode === "approval" ? "amount" : "approval")}
+            />
+            <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-financial-primary rounded-full peer peer-checked:bg-financial-primary transition-all"></div>
+            <div className="absolute left-1 top-1 bg-white w-5 h-5 rounded-full shadow-md transform peer-checked:translate-x-7 transition-transform" />
+          </label>
+          <span>Monto a Prestar</span>
+        </div>
       </CardHeader>
-      
+
       <CardContent className="p-8 bg-gradient-to-br from-gray-50 to-white">
         <form onSubmit={handleSubmit} className="space-y-10">
           {/* Información Personal */}
@@ -104,8 +122,8 @@ const handleSubmit = (e: React.FormEvent) => {
                   id="noOfDependents"
                   type="number"
                   placeholder="Ej: 2"
-                  min="0"
-                  max="10"
+                  min={0}
+                  max={10}
                   value={formData.noOfDependents || ""}
                   onChange={(e) => handleInputChange("noOfDependents", parseInt(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
@@ -125,8 +143,12 @@ const handleSubmit = (e: React.FormEvent) => {
                     <SelectValue placeholder="Selecciona tu nivel educativo" className="text-gray-500 font-medium" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-2 border-financial-primary/30 shadow-xl z-50">
-                    <SelectItem value="Graduate" className="text-lg py-3 hover:bg-financial-primary/10">Graduado Universitario</SelectItem>
-                    <SelectItem value="Not Graduate" className="text-lg py-3 hover:bg-financial-primary/10">No Graduado</SelectItem>
+                    <SelectItem value="Graduate" className="text-lg py-3 hover:bg-financial-primary/10">
+                      Graduado Universitario
+                    </SelectItem>
+                    <SelectItem value="Not Graduate" className="text-lg py-3 hover:bg-financial-primary/10">
+                      No Graduado
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -143,8 +165,12 @@ const handleSubmit = (e: React.FormEvent) => {
                     <SelectValue placeholder="Selecciona una opción" className="text-gray-500 font-medium" />
                   </SelectTrigger>
                   <SelectContent className="bg-white border-2 border-financial-primary/30 shadow-xl z-50">
-                    <SelectItem value="YES" className="text-lg py-3 hover:bg-financial-primary/10">Sí, soy independiente</SelectItem>
-                    <SelectItem value="NO" className="text-lg py-3 hover:bg-financial-primary/10">No, soy empleado</SelectItem>
+                    <SelectItem value="YES" className="text-lg py-3 hover:bg-financial-primary/10">
+                      Sí, soy independiente
+                    </SelectItem>
+                    <SelectItem value="NO" className="text-lg py-3 hover:bg-financial-primary/10">
+                      No, soy empleado
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -158,19 +184,21 @@ const handleSubmit = (e: React.FormEvent) => {
               <h3 className="text-xl font-semibold text-financial-dark">Información Financiera</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="space-y-3">
-                <Label htmlFor="incomeAnnum" className="text-financial-dark font-semibold text-sm">
-                  Ingresos Anuales ($)
-                </Label>
-                <Input
-                  id="incomeAnnum"
-                  type="number"
-                  placeholder="Ej: 2,000,000"
-                  value={formData.incomeAnnum || ""}
-                  onChange={(e) => handleInputChange("incomeAnnum", parseFloat(e.target.value) || 0)}
-                  className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
-                />
-              </div>
+              {mode === "approval" && (
+                <div className="space-y-3">
+                  <Label htmlFor="incomeAnnum" className="text-financial-dark font-semibold text-sm">
+                    Ingresos Anuales ($)
+                  </Label>
+                  <Input
+                    id="incomeAnnum"
+                    type="number"
+                    placeholder="Ej: 2,000,000"
+                    value={formData.incomeAnnum || ""}
+                    onChange={(e) => handleInputChange("incomeAnnum", parseFloat(e.target.value) || 0)}
+                    className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  />
+                </div>
+              )}
 
               <div className="space-y-3">
                 <Label htmlFor="loanAmount" className="text-financial-dark font-semibold text-sm">
@@ -183,6 +211,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   value={formData.loanAmount || ""}
                   onChange={(e) => handleInputChange("loanAmount", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  disabled={mode === "amount"}
                 />
               </div>
 
@@ -195,8 +224,8 @@ const handleSubmit = (e: React.FormEvent) => {
                   id="loanTerm"
                   type="number"
                   placeholder="Ej: 10"
-                  min="1"
-                  max="30"
+                  min={1}
+                  max={30}
                   value={formData.loanTerm || ""}
                   onChange={(e) => handleInputChange("loanTerm", parseInt(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
@@ -212,8 +241,8 @@ const handleSubmit = (e: React.FormEvent) => {
                   id="cibilScore"
                   type="number"
                   placeholder="Ej: 700"
-                  min="300"
-                  max="900"
+                  min={300}
+                  max={900}
                   value={formData.cibilScore || ""}
                   onChange={(e) => handleInputChange("cibilScore", parseInt(e.target.value) || 300)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
@@ -221,7 +250,7 @@ const handleSubmit = (e: React.FormEvent) => {
               </div>
             </div>
           </div>
-
+          
           {/* Activos y Patrimonio */}
           <div className="bg-white p-6 rounded-xl shadow-md border border-gray-200">
             <div className="flex items-center gap-2 mb-6">
@@ -241,6 +270,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   value={formData.residentialAssetsValue || ""}
                   onChange={(e) => handleInputChange("residentialAssetsValue", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  
                 />
               </div>
 
@@ -256,6 +286,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   value={formData.commercialAssetsValue || ""}
                   onChange={(e) => handleInputChange("commercialAssetsValue", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  
                 />
               </div>
 
@@ -271,6 +302,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   value={formData.luxuryAssetsValue || ""}
                   onChange={(e) => handleInputChange("luxuryAssetsValue", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  
                 />
               </div>
 
@@ -286,6 +318,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   value={formData.bankAssetValue || ""}
                   onChange={(e) => handleInputChange("bankAssetValue", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  
                 />
               </div>
             </div>
@@ -306,11 +339,15 @@ const handleSubmit = (e: React.FormEvent) => {
               ) : (
                 <>
                   <Send className="w-6 h-6 mr-3" />
-                  Evaluar Préstamo
+                  {mode === "approval" ? "Evaluar Préstamo" : "Predecir Monto"}
                 </>
               )}
             </Button>
           </div>
+
+          {
+          }
+
         </form>
       </CardContent>
     </Card>
