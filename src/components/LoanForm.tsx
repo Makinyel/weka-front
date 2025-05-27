@@ -34,7 +34,7 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
     incomeAnnum: 0,
     loanAmount: 0,
     loanTerm: 0,
-    cibilScore: 300,
+    cibilScore: 0,
     residentialAssetsValue: 0,
     commercialAssetsValue: 0,
     luxuryAssetsValue: 0,
