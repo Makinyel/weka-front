@@ -89,7 +89,7 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
         </CardDescription>
 
         <div className="mt-4 flex justify-center items-center gap-3 text-white font-semibold select-none">
-          <span>Predicción Aprobación</span>
+          <span>Predicción Aprobación de crédito</span>
           <label htmlFor="modeToggle" className="relative inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
