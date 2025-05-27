@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, AlertTriangle, Eye, Calendar } from "lucide-react";
+import { CheckCircle, XCircle, AlertTriangle, Eye, Calendar, DollarSign } from "lucide-react";
 
 export interface PredictionRecord {
   id: string;
@@ -22,35 +22,26 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
   const getStatusIcon = (prediction: string) => {
     const isApproved = prediction.toLowerCase().includes("approved");
     const isRejected = prediction.toLowerCase().includes("rejected");
-
+    const isAmount = !isApproved && !isRejected && !isNaN(Number(prediction));
     if (isApproved) return <CheckCircle className="w-5 h-5 text-financial-success" />;
     if (isRejected) return <XCircle className="w-5 h-5 text-financial-danger" />;
+    if (isAmount) return <DollarSign className="w-5 h-5 text-green-500" />;
     return <AlertTriangle className="w-5 h-5 text-financial-warning" />;
   };
 
-  const getBadgeVariant = (prediction: string) => {
-    const isApproved = prediction.toLowerCase().includes("approved");
-    const isRejected = prediction.toLowerCase().includes("rejected");
-
-    if (isApproved) return "default";
-    if (isRejected) return "destructive";
-    return "secondary";
-  };
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+  const formatDate = (date: Date) =>
+    new Intl.DateTimeFormat("es-ES", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     }).format(date);
-  };
 
   const translatePrediction = (prediction: string) => {
     if (prediction.toLowerCase().includes("approved")) return "Aprobado";
     if (prediction.toLowerCase().includes("rejected")) return "Rechazado";
-    return prediction;
+    return `Monto: $${prediction}`;
   };
 
   if (predictions.length === 0) {
@@ -58,20 +49,12 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
       <Card className="w-full max-w-4xl mx-auto bg-gradient-to-r from-financial-primary to-financial-secondary">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl text-financial-dark">Historial de Predicciones</CardTitle>
-          <CardDescription>
-            Aquí aparecerán todas las evaluaciones realizadas durante esta sesión
-          </CardDescription>
+          <CardDescription>Aquí aparecerán las evaluaciones realizadas</CardDescription>
         </CardHeader>
         <CardContent className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <Calendar className="w-16 h-16 mx-auto" />
-          </div>
-          <p className="text-financial-dark text-lg">
-            No hay predicciones realizadas aún
-          </p>
-          <p className="text-gray-600 text-sm mt-2">
-            Completa el formulario para ver tu primer resultado aquí
-          </p>
+          <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <p className="text-financial-dark text-lg">No hay predicciones aún</p>
+          <p className="text-gray-600 text-sm mt-2">Realiza una predicción para comenzar</p>
         </CardContent>
       </Card>
     );
@@ -81,9 +64,7 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
     <Card className="w-full max-w-4xl mx-auto bg-gradient-to-r from-financial-primary to-financial-secondary">
       <CardHeader className="text-center">
         <CardTitle className="text-2xl text-financial-dark">Historial de Predicciones</CardTitle>
-        <CardDescription>
-          {predictions.length} evaluación{predictions.length !== 1 ? 'es' : ''} realizadas en esta sesión
-        </CardDescription>
+        <CardDescription>{predictions.length} evaluación{predictions.length !== 1 ? "es" : ""}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -95,19 +76,29 @@ const PredictionHistory = ({ predictions, onViewDetails }: PredictionHistoryProp
                     {getStatusIcon(record.prediction)}
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-1">
-                        <Badge variant={getBadgeVariant(record.prediction)} className="text-sm ">
+                        <span
+                          className={`text-sm font-semibold ${
+                            record.prediction.toLowerCase().includes("approved")
+                              ? "text-green-600"
+                              : record.prediction.toLowerCase().includes("rejected")
+                              ? "text-red-600"
+                              : "text-black"
+                          }`}
+                        >
                           {translatePrediction(record.prediction)}
-                        </Badge>
-                        <span className="text-sm font-bold text-black">
-                          {record.probability.toFixed(1)}%
                         </span>
+
+                        {!isNaN(record.probability) && record.probability > 0 && (
+                          <span className="text-sm font-bold text-black">
+                            {record.probability.toFixed(1)}%
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-gray-600 flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
                         {formatDate(record.timestamp)}
                       </p>
                       <p className="text-sm text-gray-500 mt-1 line-clamp-2">
-                        Monto: ${record.formData?.loanAmount?.toLocaleString()} | 
                         Ingresos: ${record.formData?.incomeAnnum?.toLocaleString()} | 
                         CIBIL: {record.formData?.cibilScore}
                       </p>
