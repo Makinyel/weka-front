@@ -199,7 +199,22 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
                   />
                 </div>
               )}
-
+              { mode === "amount" && (
+                <div className="space-y-3">
+                  <Label htmlFor="incomeAnnum" className="text-financial-dark font-semibold text-sm">
+                    Ingresos Anuales ($)
+                  </Label>
+                  <Input
+                    id="incomeAnnum"
+                    type="number"
+                    placeholder="Ej: 2,000,000"
+                    value={formData.incomeAnnum || ""}
+                    onChange={(e) => handleInputChange("incomeAnnum", parseFloat(e.target.value) || 0)}
+                    className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
+                  />
+                </div>
+              )}
+             {mode === "approval" && (
               <div className="space-y-3">
                 <Label htmlFor="loanAmount" className="text-financial-dark font-semibold text-sm">
                   Monto del Préstamo ($)
@@ -211,9 +226,9 @@ const LoanForm = ({ onSubmit, isLoading }: LoanFormProps) => {
                   value={formData.loanAmount || ""}
                   onChange={(e) => handleInputChange("loanAmount", parseFloat(e.target.value) || 0)}
                   className="h-12 text-lg border-2 border-financial-primary/30 focus:border-financial-primary bg-white shadow-sm transition-all duration-200 hover:shadow-md focus:shadow-lg placeholder:text-gray-500 placeholder:font-medium"
-                  disabled={mode === "amount"}
                 />
-              </div>
+               </div>
+              )}
 
               <div className="space-y-3">
                 <Label htmlFor="loanTerm" className="text-financial-dark font-semibold text-sm flex items-center gap-2">
