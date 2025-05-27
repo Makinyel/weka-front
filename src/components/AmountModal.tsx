@@ -7,19 +7,24 @@ interface AmountModalProps {
   onClose: () => void;
   loanAmount: string;
 }
+
 const AmountModal = ({ isOpen, onClose, loanAmount }: AmountModalProps) => {
+  const formattedAmount = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 2,
+  }).format(parseFloat(loanAmount));
 
   return (
-    console.log("Rendering AmountModal with loanAmount:", loanAmount),
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl">
-        <DialogHeader className="bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-t-lg p-6 -m-6">
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto shadow-2xl bg-white rounded-xl">
+        <DialogHeader className="bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-t-lg p-6">
           <DialogTitle className="text-center text-3xl font-bold">
             Resultado de la Evaluación
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-8 py-4 bg-gradient-to-br from-gray-50 to-white p-6 -mx-6">
 
+        <div className="space-y-8 py-4 bg-gradient-to-br from-gray-50 to-white p-6">
           {/* Monto a prestar */}
           <div className="bg-white p-8 rounded-xl shadow-md border border-gray-200 text-center">
             <div className="flex justify-center mb-6">
@@ -29,7 +34,7 @@ const AmountModal = ({ isOpen, onClose, loanAmount }: AmountModalProps) => {
               Este es el monto a prestar
             </h3>
             <div className="inline-flex items-center px-8 py-4 rounded-full text-white font-bold text-xl shadow-lg bg-gradient-to-r from-green-600 to-emerald-400">
-              {loanAmount}
+              {formattedAmount}
             </div>
           </div>
 
